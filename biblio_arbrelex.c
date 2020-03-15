@@ -1,6 +1,7 @@
 #include "biblio_arbrelex.h"
 #include<stdio.h>
 #include<stdlib.h>
+#include <string.h>
 
 //ok
 

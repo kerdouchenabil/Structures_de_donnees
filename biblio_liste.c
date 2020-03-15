@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include <string.h>
 
 #include "biblio.h"
 #include "biblio_liste.h"
@@ -23,7 +24,7 @@ void affiche(Biblio* B){
 
 	if(! B->L){
 		printf("bibliotheque vide");
-		return NULL;
+		return;
 	}
 
 	CellMorceau* cm= B->L;
@@ -33,24 +34,7 @@ void affiche(Biblio* B){
 
 }
 
-/*
-Biblio *uniques(Biblio *B){
 
-	if(! B->L){
-		printf("bibliotheque vide");
-		return NULL;
-	}
-
-	Biblio* bib = nouvelle_biblio();
-
-
-	CellMorceau* cm= bib->L;
-	while(cm){
-		affiche_morceau(cm);
-	}
-
-}
-*/
 
 
 void libere_biblio(Biblio *B){
@@ -96,7 +80,7 @@ void insere(Biblio *B, int num, char *titre, char *artiste){
 	else{ //insere au debut
 
 		cm->suiv = B->L;
-		B->nE = (B->nE)++;
+		(B->nE)++;
 		B->L = cm;
 	}
 }
@@ -222,3 +206,29 @@ Biblio* supprimer_morceau(Biblio* B, CellMorceau* morceau){
 	}
 
 }
+
+
+
+
+Biblio *uniques(Biblio *B){
+	/*
+	if(! B->L){
+		printf("bibliotheque vide");
+		return NULL;
+	}
+
+	Biblio* bib = nouvelle_biblio();
+
+
+	CellMorceau* cm= bib->L;
+	while(cm){
+		affiche_morceau(cm);
+	}
+	*/
+	return NULL;
+}
+
+
+
+
+
