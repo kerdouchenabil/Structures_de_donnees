@@ -2,6 +2,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 
+//ok
 
 Biblio *nouvelle_biblio(void)
 {
@@ -12,102 +13,72 @@ Biblio *nouvelle_biblio(void)
 }
 
 
-Noeud *  recherche_ou_cree_artiste ( Biblio *B , char * artiste ) {
-  int i =0; // Indice lisant nom
-  Noeud * cour =B -> A ; // Pointeur courant
-  Noeud * prec = cour ; // Pointeur sur la valeur precedant cour
-  while ( ( cour != NULL ) && ( artiste [ i ]!= '\0' ) ) {
-	  prec = cour ;
-	  if ( cour -> car == artiste [ i ]) { // On a lu le bon caractere
-		cour = cour -> car_suiv ;
-		i ++;
-	  }
-	  else { // On tente un caractere alternatif
-		cour = cour -> liste_car ;
-	  }
-  }
-  
-  
-  if(artiste[i]=='\0'){
-	printf("artiste trouvé\n");
-	if (cour != NULL){
-	  printf("trouvé dans Noeud cour!!! \n");
-	}else{
-		printf("trouvé dans Noeud prec!!! \n");
+
+
+void insere(Biblio *B, int num, char *titre, char *artiste){
+
+	Noeud * cour = B->A;
+	Noeud * prec = cour;
+
+	int i = 0;
+	while (artiste[i]!='\0'){ //pour chaque lettre de l'artiste
+		if(cour==NULL){
+		
+			//creation du noeud
+			Noeud * n = malloc(sizeof(Noeud*)); //sizeof(Noeud) ??
+			
+			n->car = artiste[i]; //noeud contient la lettre i de l'artiste
+			
+			n->liste_morceaux=NULL;
+			n->car_suiv=NULL;
+			n->liste_car=NULL;
+			printf("noeud créé: %c\n", artiste[i]);
+			
+			//insertion du noeud
+			if(B->A==NULL){
+				B->A=n;
+			}
+			if(prec!=NULL){
+				prec->liste_car=n;
+			}
+			
+			cour=n;
+			
+		}
+		else if(cour->car == artiste[i]){ //vertical
+			printf("bon carac lu: %c (avance vertical i=%d)\n", artiste[i], i);
+			prec=cour;
+			cour=cour->car_suiv;
+			i++;
+		}else{					//horizontal
+			printf("on tente un carac alternatif  %c \n", artiste[i]);
+			prec=cour;
+			cour=cour->liste_car;
+		}
 	}
 	
 	
-  }
-  else{
-	if(artiste[i-1]==prec->car)/*le cour est a null !!*/{
-		printf("artiste non trouvé 1, cour=%p ; prec=%p \n", cour, prec);
-	  while (artiste[i]!='\0') {
-		//création des Noeud
-		Noeud *temp = malloc(sizeof(Noeud));
-		temp -> car = artiste[i];
-		prec -> car_suiv = temp ;
-		temp -> car_suiv = NULL;
-		temp -> liste_car =NULL;
-		temp -> liste_morceaux = NULL;
-		temp = prec ;
-		i++;
-	  }
-	  return prec ;
-	}
-	else{
-		printf("artiste non trouvé (2), cour=%p ; prec=%p \n", cour, prec);
-	  //création des Noeud
-	  Noeud *temp = malloc(sizeof(Noeud));
-	  temp -> car = artiste[i];
-	  prec -> liste_car = temp ; //a vérifier
-	  temp -> car_suiv = NULL;
-	  temp -> liste_car =NULL;
-	  temp -> liste_morceaux=NULL;
-	  temp = prec ;
-	  while (artiste[i]!='\0') {
-		Noeud *temp = malloc(sizeof(Noeud));
-		temp -> car = artiste[i];
-		prec -> car_suiv = temp ;
-		temp -> car_suiv = NULL;
-		temp -> liste_car =NULL;
-		temp -> liste_morceaux = NULL;
-		temp = prec ;
-		i++;
-	  }
-	  return prec ;
-	}
-  }
+	//insertion du morceau au dernier noeud(artiste)
+	
+		CellMorceau * cm = malloc(sizeof(CellMorceau));
+		cm -> num = num;
+		cm -> titre = titre;
+		cm -> artiste = artiste ;
+		cm -> suiv = NULL;
+	
+	if (prec->liste_morceaux== NULL){
+		prec->liste_morceaux = cm;
+		cm -> suiv = NULL;
+	 }else{
+	 	cm->suiv=prec->liste_morceaux;
+	 	prec->liste_morceaux=cm;
+	 }
+	 B->nE=(B->nE)+1;
 }
 
 
 
 
-
-void insere(Biblio *B, int num, char *titre, char *artiste)
-{
-	if(!B){
-		printf("bibliotheque vide, creation...\n");
-		B = nouvelle_biblio();
-	}
-	
-	
-  Noeud* temp = recherche_ou_cree_artiste(B,artiste);
-  CellMorceau * cm = malloc(sizeof(CellMorceau));
-  cm -> artiste = artiste;
-  cm -> num = num;
-  cm -> titre = titre ;
-  cm -> suiv = NULL;
-  if(temp -> liste_morceaux == NULL){
-	temp->liste_morceaux = cm ;
-  }else{
-	cm -> suiv = temp->liste_morceaux;
-	temp ->liste_morceaux = cm ;
-  }
-  
-  //nombre d'elements ++ dans la Biblio
-  B->nE = (B->nE)+1 ;
-
-}
 
 
 
@@ -140,6 +111,8 @@ void affiche(Biblio *B)
 	return;
   }
   
+  printf("----------affichage_bibliotheque-----------\n");
+  
   Noeud * temp = B->A;
   affiche_Noeud(temp);
 
@@ -147,50 +120,47 @@ void affiche(Biblio *B)
 
 
 
+
 Biblio *extraireMorceauxDe(Biblio *B, char * artiste)
 {
-  int i =0; // Indice lisant nom
-  Noeud * cour =B -> A ; // Pointeur courant
-  Noeud * prec = cour ; // Pointeur sur la valeur precedant cour
-  while ( ( cour != NULL ) && ( artiste [ i ]!= '\0' ) ) {
-	  prec = cour ;
-	  if ( cour -> car == artiste [ i ]) { // On a lu le bon caractere
-		cour = cour -> car_suiv ;
-		i ++;
-	  }
-	  else { // On tente un caractere alternatif
-		cour = cour -> liste_car ;
-	  }
-  }
-  
-  if(artiste[i]=='\0'){
-  	printf("artiste trouvé\n");
-	if (cour != NULL){
-	  printf("trouvé dans Noeud cour!!! \n");
-	}else{
-		printf("trouvé dans Noeud prec!!! \n");
+	int i = 0; // Indice lisant nom
+	Noeud *cour = B->A; // Pointeur courant
+	Noeud *prec = cour; // Pointeur sur la valeur precedant cour
+
+	while ((cour != NULL) && (artiste[i] != '\0')) {
+		prec = cour;
+
+		if (cour->car == artiste[i]) { // On a lu le bon caractere
+			cour = cour->car_suiv;
+			i++;
+		}
+		else { // On tente un caractere alternatif
+			cour = cour->liste_car;
+		}
 	}
-	
-	if(cour==NULL || cour->liste_morceaux==NULL){
-		printf("pas de morceaux pour cet artiste\n");
-		return NULL;	
+
+	Biblio *bib = nouvelle_biblio();
+
+	if (artiste[i] == '\0'){
+		printf("artiste trouvé\n");
+		
+		//insertion des morceaux
+		CellMorceau *cm = prec->liste_morceaux;
+		while (cm) {
+			insere(bib, cm->num, strdup(cm->titre), strdup(cm->artiste));
+			cm = cm->suiv;
+		}
 	}
-	
-	//creation d'une Biblio de tous les morceaux de l'artiste
-	Biblio* bibArtiste = nouvelle_biblio();
-	
-	CellMorceau* cm = cour->liste_morceaux;
-	while(cm){
-		insere(bibArtiste, cm->num, cm->titre, cm->artiste);
-		cm = cm->suiv; 
+	else {
+		printf("artiste non trouvé.\n");
 	}
-	
-  }
-  else{ //artiste n'existe pas
-	printf("artiste non trouvé\n");
-	return NULL;
-  }
+
+	return bib;
 }
+
+
+
+
 
 
 void libere_morceaux(CellMorceau* cm){

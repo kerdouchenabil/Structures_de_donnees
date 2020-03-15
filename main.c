@@ -5,18 +5,23 @@
 
 int main (){
 
-	Biblio* biblio = charge_n_entrees("BiblioMusicale.txt", 50);
-	affiche(biblio);
+	Biblio* biblio = charge_n_entrees("BiblioMusicale.txt", 10);  //OK ?
 	
-	Biblio* bibArtiste = extraireMorceauxDe(biblio, "Rihanna");
-	affiche(bibArtiste);
-	
-	libere_biblio(biblio);
+	affiche(biblio); //OK
 	
 	
+	printf("\n--------test extraireMorceauxDe-------\n");
+	Biblio* bibArtiste = extraireMorceauxDe(biblio, "Echosmith");
+	//affiche(bibArtiste);
 	
-	printf("\n--------test-------\n");
-	afficheMorceau( rechercheParNum(biblio, 0) );	
+	
+	
+	
+	printf("\n--------test afficheMorceau-------\n");
+	afficheMorceau( rechercheParNum(biblio, 5) );	//OK
+	
+	libere_biblio(biblio);  //OK
+	
 	
 	return 0 ;
 }
