@@ -24,4 +24,29 @@ struct Biblio {
 };
 
 
+unsigned int fonction cle(const char *artiste);
+
+unsigned int fonction hachage(unsigned int cle, int m)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #endif
