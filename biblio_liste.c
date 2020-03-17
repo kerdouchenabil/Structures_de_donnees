@@ -7,7 +7,7 @@
 
 
 
-void affiche_morceau(CellMorceau* cm){
+void afficheMorceau(CellMorceau* cm){
 
 	if(! cm){
 		printf("morceau vide");
@@ -29,7 +29,8 @@ void affiche(Biblio* B){
 
 	CellMorceau* cm= B->L;
 	while(cm){
-		affiche_morceau(cm);
+		afficheMorceau(cm);
+		cm=cm->suiv;
 	}
 
 }
@@ -62,6 +63,8 @@ Biblio *nouvelle_biblio(void){
 
 	bib->L = NULL;
 	bib-> nE = 0;
+	
+	return bib;
 }
 
 
@@ -90,7 +93,7 @@ void insere(Biblio *B, int num, char *titre, char *artiste){
 // ex1 q1.6
 
 //recherce un morceau par son num
-CellMorceau* chercher_num(Biblio* B, int n){
+CellMorceau* rechercheParNum(Biblio* B, int n){
 
 	if(! B->L){
 		printf("bibliotheque vide");
@@ -110,7 +113,7 @@ CellMorceau* chercher_num(Biblio* B, int n){
 
 
 //recherce un morceau par son titre
-CellMorceau* chercher_titre(Biblio* B, char* titre){
+CellMorceau* rechercheParTitre(Biblio* B, char* titre){
 
 	if(! B->L){
 		printf("bibliotheque vide");
@@ -204,7 +207,8 @@ Biblio* supprimer_morceau(Biblio* B, CellMorceau* morceau){
 		}
 		cm= cm-> suiv;
 	}
-
+	
+	return B;
 }
 
 

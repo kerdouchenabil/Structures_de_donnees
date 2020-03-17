@@ -16,7 +16,7 @@ struct Biblio {
     int nE;
 };
 
-
+/*
 void affiche_morceau(CellMorceau* cm);
 
 void affiche(Biblio* B);
@@ -36,7 +36,7 @@ Biblio* chercher_artiste(Biblio* B, char* artiste);
 Biblio* supprimer_morceau(Biblio* B, CellMorceau* morceau);
 
 Biblio *uniques(Biblio *B);
-
+*/
 
 
 

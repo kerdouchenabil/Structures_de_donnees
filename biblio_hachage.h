@@ -4,7 +4,7 @@
 #include "biblio.h"
 #include <math.h>
 
-#define TAILLE_TABLE 60000
+#define TAILLE_TABLE 600
 #define A 0.6180339887498949
 
 
@@ -24,23 +24,35 @@ struct Biblio {
 };
 
 
-unsigned int fonction cle(const char *artiste);
+unsigned int fonctio__cle(const char *artiste);
 
-unsigned int fonction hachage(unsigned int cle, int m)
+int h(int k);
 
+unsigned int fonction_hachage(unsigned int cle, int m);
 
+Biblio *nouvelle_biblio(void) ;
 
+void libere_un_morceau(CellMorceau * cm );
 
+void libere_biblio(Biblio *B);
 
+void insere(Biblio *B, int num, char *titre, char *artiste);
 
+void afficheMorceau(CellMorceau *cell);
 
+void affiche(Biblio *B);
 
+CellMorceau * rechercheParNum(Biblio *B, int num);
 
+CellMorceau *rechercheParTitre(Biblio *B, char * titre);
 
+Biblio *extraireMorceauxDe(Biblio *B, char * artiste);
 
+void insereSansNum(Biblio *B, char *titre, char *artiste);
 
+int supprimeMorceau(Biblio *B, int num);
 
-
+Biblio *uniques (Biblio *B);
 
 
 
