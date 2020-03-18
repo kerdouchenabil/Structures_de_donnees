@@ -242,5 +242,24 @@ Biblio *uniques(Biblio *B){
 
 
 
+Biblio *extraireMorceauxDe(Biblio *B, char * artiste){
+	Biblio* bib= nouvelle_biblio();
+	
+	if(! B->L){
+		printf("bibliotheque vide");
+		return NULL;
+	}
+
+	CellMorceau* cm= B->L;
+	while(cm){
+		if(strcmp(artiste, cm->artiste) == 0){
+			insere(bib, cm->num, cm->titre, cm->artiste);
+		}
+		cm= cm-> suiv;
+	}
+	
+	return bib;
+}
+
 
 

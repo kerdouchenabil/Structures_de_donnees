@@ -11,6 +11,8 @@ void menu()
 	printf("1-Affichage\n");
 	printf("2-Recherche morceaux uniques\n");
 	printf("3-Recherche morceau par titre\n");
+	printf("4-Recherche morceaux d'un artiste\n");
+	printf("5-Recherche un morceau par son artiste (et titre)\n");
 	printf("Votre choix : ");
 }
 
@@ -25,6 +27,8 @@ int main(int argc, const char *argv[])
 	const char *nomfic = argv[1];
 	int nlignes = atoi(argv[2]);
 	char titre[249];
+	char a[249];
+	
 	printf("Lecture :\n");
 	Biblio *biblio = charge_n_entrees(nomfic, nlignes);
 	
@@ -56,6 +60,29 @@ int main(int argc, const char *argv[])
 					else afficheMorceau(r);
 					break;
 				}
+				
+			case 4 :
+			{
+				printf("Saisir le nom de l'artiste:\n");
+				scanf(" %248[^\n]", a);
+				Biblio *bib = extraireMorceauxDe(biblio, a);
+				if (bib == NULL) printf("Aucun morceau de l'artiste : %s!!!\n", a);
+				else affiche(bib);
+				break;
+			}
+			
+			case 5 :
+			{
+				printf("Saisir le nom de l'artiste:\n");
+				scanf(" %248[^\n]", a);
+				printf("Saisir le titre du morceau :\n");
+				scanf(" %248[^\n]", titre);
+				CellMorceau *cm = rechercheParArtiste(biblio, a, titre);
+				if (cm == NULL) printf("morceau non trouvé : %s!!!\n", a);
+				else afficheMorceau(cm);
+				break;
+			}
+				
 			default :
 				ch = 0;
 				break;

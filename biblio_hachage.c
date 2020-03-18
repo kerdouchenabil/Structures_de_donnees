@@ -220,17 +220,22 @@ Biblio *extraireMorceauxDe(Biblio *B, char * artiste)
 	int k = fonction_cle(artiste);
 	
 	int ind = fonction_hachage(k, B->m);
+	
 	if(!B->T[ind]){
 		return NULL;
 	}
 	
 	CellMorceau * liste = B->T[ind];
 	Biblio * bib = nouvelle_biblio();
+	
+	afficheMorceau(liste);
+	
 	//parcourir la liste 
 	while(liste){
-		if(liste->artiste==artiste){
+		if(strcmp(liste->artiste, artiste)==0){
 			insere(bib,liste->num,strdup(liste->titre),strdup(liste->artiste));
 		}
+		
 		liste=liste->suiv;
 	}
 	return bib ;

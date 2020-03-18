@@ -2,10 +2,12 @@
 #ifndef _BIBLIO_H_
 #define _BIBLIO_H_
 
-#include "parser.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "parser.h"
+#include <time.h>
 
 typedef struct CellMorceau CellMorceau;
 
@@ -50,7 +52,32 @@ void insereSansNum(Biblio *B, char *titre, char *artiste);
 int supprimeMorceau(Biblio *B, int num);
 
 /*recherche par artiste*/
-//CellMorceau *rechercheParTitre(Biblio *B, char * titre);
+CellMorceau *rechercheParArtiste(Biblio *B, char * artiste, char* titre);
+
+
+/*---------------  jeux de tests ---------------------*/
+
+
+	
+clock_t temps_initial ; /* Temps initial en micro-secondes */
+clock_t temps_final ;
+/* Temps final en micro-secondes */
+double temps_cpu ;
+/* Temps total en secondes */
+
+
+void temps_rechercheParNum(Biblio *B, int num);
+
+void temps_rechercheParTitre(Biblio *B, char* titre);
+
+void temps_rechercheParArtiste(Biblio *B, char* artiste, char* titre);
+
+
+
+
+
+
+
 
 
 
