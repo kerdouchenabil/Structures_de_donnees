@@ -72,7 +72,7 @@ void temps_rechercheParTitre(Biblio *B, char* titre);
 
 void temps_rechercheParArtiste(Biblio *B, char* artiste, char* titre);
 
-
+void temps_uniques(char* nom_fichier);
 
 
 

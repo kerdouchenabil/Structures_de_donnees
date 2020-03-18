@@ -8,7 +8,7 @@ Biblio *nouvelle_biblio(void)
 {
    Biblio* bib= malloc(sizeof(Biblio));
    bib->nE=0;
-   bib->capacite=500;
+   bib->capacite=100000;
    bib->T= malloc( (bib->capacite)*sizeof(CellMorceau ));
 
    return bib;

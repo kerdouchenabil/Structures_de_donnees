@@ -6,13 +6,19 @@
 
 void menu()
 {
-	printf("Menu:\n");
+	printf("\n\nMenu:\n");
 	printf("0-Sortie\n");
 	printf("1-Affichage\n");
 	printf("2-Recherche morceaux uniques\n");
 	printf("3-Recherche morceau par titre\n");
 	printf("4-Recherche morceaux d'un artiste\n");
 	printf("5-Recherche un morceau par son artiste (et titre)\n");
+	
+	printf("--------------- jeux de tests ---------------\n");
+	
+	printf("6-Comparer temps d'executions des recherches\n");
+	printf("7-temps d'executions uniques() pour different nombre de lignes\n");
+	
 	printf("Votre choix : ");
 }
 
@@ -28,6 +34,7 @@ int main(int argc, const char *argv[])
 	int nlignes = atoi(argv[2]);
 	char titre[249];
 	char a[249];
+	int num;
 	
 	printf("Lecture :\n");
 	Biblio *biblio = charge_n_entrees(nomfic, nlignes);
@@ -82,6 +89,34 @@ int main(int argc, const char *argv[])
 				else afficheMorceau(cm);
 				break;
 			}
+			
+			/*-----------------------tests---------------------*/
+			case 6 :
+			{
+				printf("Saisir le numero du morceau:\n");
+				scanf("%d", &num);
+				printf("Saisir le nom de l'artiste:\n");
+				scanf(" %248[^\n]", a);
+				printf("Saisir le titre du morceau :\n");
+				scanf(" %248[^\n]", titre);
+				temps_rechercheParArtiste(biblio, a, titre);
+				temps_rechercheParTitre(biblio,  titre);
+				temps_rechercheParNum(biblio,num);
+				
+				
+				break;
+			}
+			
+			case 7 :
+			{
+				
+				temps_uniques(nomfic); //nom du fichier BiblioListe.txt
+				
+				break;
+			}
+			
+			
+			
 				
 			default :
 				ch = 0;

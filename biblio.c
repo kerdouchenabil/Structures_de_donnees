@@ -108,6 +108,10 @@ void vider_buffer(){ //ne fonctionne pas !! utiliser un printf a la place
 		CellMorceau* cm = rechercheParNum(B, num);
 		temps_final = clock () ;
 		temps_cpu = (( double ) ( temps_final - temps_initial ) ) /CLOCKS_PER_SEC;
+		
+		if (cm == NULL) printf("morceau non trouvé!\n");
+		else afficheMorceau(cm);
+		
 		printf ( "temps_rechercheParNum= %f \n", temps_cpu ) ;
 		
 	}
@@ -120,6 +124,10 @@ void vider_buffer(){ //ne fonctionne pas !! utiliser un printf a la place
 		CellMorceau* cm = rechercheParTitre(B, titre);
 		temps_final = clock () ;
 		temps_cpu = (( double ) ( temps_final - temps_initial ) ) /CLOCKS_PER_SEC;
+		
+		if (cm == NULL) printf("morceau non trouvé!\n");
+		else afficheMorceau(cm);
+		
 		printf ( "temps_recherchePartitre= %f \n", temps_cpu ) ;
 		
 	}
@@ -132,6 +140,10 @@ void vider_buffer(){ //ne fonctionne pas !! utiliser un printf a la place
 		CellMorceau* cm = rechercheParArtiste(B, artiste, titre);
 		temps_final = clock () ;
 		temps_cpu = (( double ) ( temps_final - temps_initial ) ) /CLOCKS_PER_SEC;
+		
+		if (cm == NULL) printf("morceau non trouvé!\n");
+		else afficheMorceau(cm);
+		
 		printf ( "temps_rechercheParArtiste= %f \n", temps_cpu ) ;
 		
 	}
@@ -140,6 +152,42 @@ void vider_buffer(){ //ne fonctionne pas !! utiliser un printf a la place
 
 
 
+
+	
+	void temps_uniques(char* nom_fichier){
+	
+		char* nomf="temps_uniques.txt";
+	
+		//creation d'un fichier 
+		FILE *f = fopen(nomf, "w");
+	
+		for (int n=1000; n<30000; n+=1000){
+			
+			Biblio* bib = charge_n_entrees(nom_fichier, n);
+			
+			printf("temps pour %d lignes\n", n);
+			temps_initial = clock () ;
+			Biblio* bu = uniques(bib);
+			temps_final = clock () ;
+			temps_cpu = (( double ) ( temps_final - temps_initial ) ) /CLOCKS_PER_SEC;
+			
+			printf ( "temps_uniques= %f \n", temps_cpu ) ;
+			
+			
+			//ecriture dans le fichier
+			fprintf(f, "%d,%f\n", n,temps_cpu);
+			
+			
+			libere_biblio(bib);
+			libere_biblio(bu);
+			
+		}
+		
+		
+		fclose(f);
+		
+	}
+	
 
 
 

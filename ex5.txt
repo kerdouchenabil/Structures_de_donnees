@@ -1,0 +1,104 @@
+
+Données des tests
+
+--------------test1: pour 100000 morceaux------------------
+------------biblio_liste
+
+Saisir le numero du morceau:
+1026
+Saisir le nom de l'artiste:
+Joe South
+Saisir le titre du morceau :
+The Purple People Eater Meets The Witch Doctor
+temps recherche par artiste
+Morceau: num=1026; titre=The Purple People Eater Meets The Witch Doctor; artiste=Joe South 
+temps_rechercheParArtiste= 0.005739 
+temps recherche par titre
+Morceau: num=97038; titre=The Purple People Eater Meets The Witch Doctor; artiste=Joe South 
+temps_recherchePartitre= 0.000157 
+temps recherche par numero
+Morceau: num=1026; titre=The Purple People Eater Meets The Witch Doctor; artiste=Joe South 
+temps_rechercheParNum= 0.006351 
+
+
+
+
+------------biblio_tabdyn
+
+
+Saisir le numero du morceau:
+1026
+Saisir le nom de l'artiste:
+Joe South 
+Saisir le titre du morceau :
+The Purple People Eater Meets The Witch Doctor
+temps recherche par artiste
+*T*        0 * The Purple People Eater Meets Th * Joe South                        *T*
+temps_rechercheParArtiste= 0.007537 
+temps recherche par titre
+*T*     1026 * The Purple People Eater Meets Th * Joe South                        *T*
+temps_recherchePartitre= 0.000058 
+temps recherche par numero
+*T*     1026 * The Purple People Eater Meets Th * Joe South                        *T*
+temps_rechercheParNum= 0.000007 
+
+
+
+
+----------biblio_hachage
+
+ 1026 § The Purple People Eater Meets Th § Joe South                        §§
+temps_rechercheParArtiste= 0.001070 
+temps recherche par titre
+§§    97038 § The Purple People Eater Meets Th § Joe South                        §§
+temps_recherchePartitre= 0.013511 
+temps recherche par numero
+§§     1026 § The Purple People Eater Meets Th § Joe South                        §§
+temps_rechercheParNum= 0.010799 
+
+
+
+
+----------Q5.2
+
+
+
+>>> taille table = 60
+temps_rechercheParArtiste= 0.001070 
+temps recherche par titre
+temps_recherchePartitre= 0.013511 
+temps recherche par numero
+temps_rechercheParNum= 0.010799 
+
+>>> taille table = 6000
+temps_rechercheParArtiste= 0.000933 
+temps recherche par titre
+temps_recherchePartitre= 0.006103 
+temps recherche par numero
+temps_rechercheParNum= 0.005627 
+
+>>> taille table = 600000
+temps_rechercheParArtiste= 0.008214 
+temps recherche par titre
+temps_recherchePartitre= 0.006200 
+temps recherche par numero
+temps_rechercheParNum= 0.005833 
+
+
+
+
+----------Q5.3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
