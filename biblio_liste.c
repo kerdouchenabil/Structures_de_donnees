@@ -163,18 +163,15 @@ Biblio* chercher_artiste(Biblio* B, char* artiste){
 
 
 //suppression d'un morceau
-Biblio* supprimer_morceau(Biblio* B, CellMorceau* morceau){
+int supprimeMorceau(Biblio *B, int num){
 
 	if(! B->L){
 		printf("bibliotheque vide");
-		return NULL;
+		return 0;
 	}
 
 	//si c'est le premier element
-	if( (strcmp( (morceau->titre), (B->L->titre) ) == 0) &&
-			(strcmp( (morceau->artiste), (B->L->artiste) ) ==0) &&
-			(morceau->num == B->L->num)
-		){
+	if(B->L -> num == num ){
 			//on le supprime
 			CellMorceau* asuppr = B->L;
 			B->L = B->L->suiv;
@@ -184,16 +181,13 @@ Biblio* supprimer_morceau(Biblio* B, CellMorceau* morceau){
 			asuppr->suiv=NULL;
 			free(asuppr);
 
-			return B;
+			return 1;
 		}
 
 	//si plusieur elements de la liste
 	CellMorceau* cm= B->L;
 	while(cm->suiv){ //cm==morceau  ne marche pas sur duplicata
-		if( (strcmp( (morceau->titre), (cm->suiv->titre) ) == 0) &&
-			(strcmp( (morceau->artiste), (cm->suiv->artiste) ) ==0) &&
-			(morceau->num == cm->suiv->num)
-		){
+		if( cm -> num == num){
 			//on le supprime
 			CellMorceau* asuppr = cm->suiv;
 			cm->suiv = cm->suiv->suiv;
@@ -203,19 +197,19 @@ Biblio* supprimer_morceau(Biblio* B, CellMorceau* morceau){
 			asuppr->suiv=NULL;
 			free(asuppr);
 
-			return B; //on supprime la premiere occurence
+			return 1; //on supprime la premiere occurence
 		}
 		cm= cm-> suiv;
 	}
 	
-	return B;
+	return 1;
 }
 
 
 
 
 Biblio *uniques(Biblio *B){
-	/*
+	
 	if(! B->L){
 		printf("bibliotheque vide");
 		return NULL;
@@ -224,12 +218,26 @@ Biblio *uniques(Biblio *B){
 	Biblio* bib = nouvelle_biblio();
 
 
-	CellMorceau* cm= bib->L;
-	while(cm){
-		affiche_morceau(cm);
+	CellMorceau* tmp= B->L;
+	CellMorceau * tmp2 ;
+	for(int i = 0 ; i<B->nE;i++){
+		tmp2 = tmp -> suiv;//PAS SUR A A VERIFIER 
+		int doubl = 0;
+		while(tmp2){
+			if(strcmp(tmp->titre,tmp2->titre)==0 ){
+				printf("doublon trouvé \n");
+				doubl = 1;
+				break;
+			}
+			tmp2 = tmp2 -> suiv ;
+		}
+		if(doubl== 0 ){
+			insere(bib , tmp->num,strdup(tmp->titre),strdup(tmp->artiste));
+		}
+		tmp = tmp -> suiv;
 	}
-	*/
-	return NULL;
+	
+	return bib;
 }
 
 

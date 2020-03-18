@@ -1,4 +1,4 @@
-#include "biblio_hachage.h"
+#include "biblio_tabdyn.h"
 //#include "biblio_arbrelex.h"
 //#include "biblio.h"
 
@@ -7,30 +7,35 @@
 
 
 int main (){
-
 	
-	int x = h(2);
-	printf("x=%d\n", x);
 	
-	Biblio* bib = NULL;
-	insere(bib, 01, "blabla", "art");
+	Biblio* bib = charge_n_entrees("BiblioMusicale.txt", 10);  //OK ?
 	
-	//Biblio* biblio = charge_n_entrees("BiblioMusicale.txt", 10);  //OK ?
+	affiche(bib);
 	
-	affiche(bib); //OK
+	CellMorceau* cm = rechercheParNum(bib, 5);
+	printf("affich du morceau-----\n");
+	afficheMorceau(cm);
+	
+	int ind;
+	cm = rechercheParNum_indice(bib, 5, &ind);
+	afficheMorceau(&bib->T[ind]);
+	printf("ind= %d\n\n", ind);
+	
+	affiche(bib);
 	
 	/*
 	printf("\n--------test extraireMorceauxDe-------\n");
-	Biblio* bibArtiste = extraireMorceauxDe(biblio, "Echosmith");
+	Biblio* bibArtiste = extraireMorceauxDe(bib, "Echosmith");
 	//affiche(bibArtiste);
 	
 	
 	
 	
 	printf("\n--------test afficheMorceau-------\n");
-	afficheMorceau( rechercheParNum(biblio, 5) );	//OK
+	afficheMorceau( rechercheParNum(bib, 5) );	//OK
 	
-	libere_biblio(biblio);  //OK
+	libere_biblio(bib);  //OK
 	*/
 	
 	return 0 ;

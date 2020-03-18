@@ -49,6 +49,11 @@ void insereSansNum(Biblio *B, char *titre, char *artiste);
 /* Supprime le morceau de numéro num de la Biblio B */
 int supprimeMorceau(Biblio *B, int num);
 
+/*recherche par artiste*/
+//CellMorceau *rechercheParTitre(Biblio *B, char * titre);
+
+
+
 #endif
 
 
@@ -84,6 +89,6 @@ Biblio* supprimer_morceau(Biblio* B, CellMorceau* morceau);
 
 #endif
 
-/*
+*/
 
  /* biblio_h */

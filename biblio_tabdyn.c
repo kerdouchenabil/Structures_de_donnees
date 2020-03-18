@@ -8,7 +8,7 @@ Biblio *nouvelle_biblio(void)
 {
    Biblio* bib= malloc(sizeof(Biblio));
    bib->nE=0;
-   bib->capacite=50;
+   bib->capacite=500;
    bib->T= malloc( (bib->capacite)*sizeof(CellMorceau ));
 
    return bib;
@@ -18,15 +18,17 @@ Biblio *nouvelle_biblio(void)
 void libere_morceau(CellMorceau* cm){
 	free(cm->artiste);
 	free(cm->titre);
-	free(cm);
+	//free(cm);  //ERREUR ! 	
+	/*ne pas free car la memoire du tableau est jumelée suite à un seul pointeur(debut du tab),
+	donc on ne peut pas désallouer une partie de sa mémoire! */
 }
 
 
 void libere_biblio(Biblio *B)
 {
 	for(int i=0; i< B->nE; i++){
-		libere_morceau(&(B->T[i])); /*si probleme a l'execution changer
-        l'argument et mettre des . a la place des fleches  */
+		libere_morceau(&(B->T[i])); //libere juste les char*
+		/*si probleme a l'execution changer l'argument et mettre des . a la place des fleches  */
 	}
 
    free(B->T);
@@ -70,6 +72,7 @@ void affiche(Biblio *B)
 	for(int i=0; i<B->nE; i++){
 		afficheMorceau(&B->T[i]);
 	}
+	printf("fin afichage!\n");
 }
 
 
@@ -116,23 +119,27 @@ CellMorceau  * rechercheParNum_indice(Biblio *B, int num, int* indice)
 
 int supprimeMorceau(Biblio *B, int num)
 {
-	int ind;
+	
+	int ind=-1;
 	CellMorceau * cm = rechercheParNum_indice(B, num, &ind);
-
+	
+	printf("suppp ind = %d\n", ind);
 	if(cm){ //element a supprimer trouvé
 		//supprimer le morceau
-		libere_morceau(cm); // cm == B->T[ind]
 
+		libere_morceau(cm); // cm == B->T[ind]
+		printf("b");
 		//decaler tous les autres morceaux
 		for(int i=ind; i< (B->nE)-1; i++){  //pour aller jusqua T[B->nE-2]
 			B->T[i] = B->T[i+1];
+			printf("morceau deplacé de %d à %d\n", i+1, i);
 		}
-		//a la fin on supprime le dernier morceau en doublon
-		libere_morceau(&B->T[B->nE-1]);
+		//a la fin on supprime le dernier pointeur sur le morceau en doublon
+		//libere_morceau(&B->T[B->nE-1]);
 		//nE--
 		B->nE = B->nE -1;
 
-		printf("morceau supprimé\n");
+		printf("morceau supprimé ");
 		return 1;
 	}
 
@@ -174,13 +181,32 @@ Biblio *extraireMorceauxDe(Biblio *B, char * artiste)
 
 
 Biblio *uniques (Biblio *B)
-{
+{	
+	Biblio* bib = nouvelle_biblio();
+	
 
-   for(int i = 0 ; i<B->nE-1;i++){
-     CellMorceau  * m = rechercheParTitre(B,B->T[i].titre);
-     if (m) {
-         supprimeMorceau(B,m->num);
-     }
-   }
-   return B ;
+	for(int i=0; i < B->nE; i++){
+	
+		int doubl=0; //booleen
+		for(int j=i+1; j<B->nE; j++){
+		
+			//printf("unique--- titre i=%s ; titre j=%s\n", B->T[i].titre, B->T[j].titre);
+			if(strcmp(B->T[i].titre, B->T[j].titre)==0){
+				printf("doublon trouvé\n");
+				doubl=1;
+				break;
+			}
+		}
+		
+		if(doubl==0){ //s'il na pas de doublon on l'insere
+			insere(bib, B->T[i].num, strdup(B->T[i].titre), strdup(B->T[i].artiste));
+		}
+		
+	}
+
+	return bib;
+
 }
+
+
+

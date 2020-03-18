@@ -4,7 +4,7 @@
 #include "biblio.h"
 #include <math.h>
 
-#define TAILLE_TABLE 600
+#define TAILLE_TABLE 60
 #define A 0.6180339887498949
 
 

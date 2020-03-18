@@ -15,7 +15,7 @@ struct Biblio {
     CellMorceau *T;    
 };
 
-
+/*
 Biblio *nouvelle_biblio(void) ;
 
 void libere_morceau(CellMorceau* cm);
@@ -41,7 +41,7 @@ void insereSansNum(Biblio *B, char *titre, char *artiste);
 Biblio *extraireMorceauxDe(Biblio *B, char * artiste);
 
 Biblio *uniques (Biblio *B);
-
+*/
 
 #endif
 
