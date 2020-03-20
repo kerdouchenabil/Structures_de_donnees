@@ -22,6 +22,27 @@ temps_rechercheParNum= 0.006351
 
 
 
+------------biblio_arbrelex
+
+Saisir le numero du morceau:
+99910
+Saisir le nom de l'artiste:
+Juliet Roberts
+Saisir le titre du morceau :
+I Want You
+temps recherche par artiste
+*T*        0 * I Want You                       * Juliet Roberts                   *T*
+temps_rechercheParArtiste= 0.012364 
+temps recherche par titre
+*T*      754 * I Want You                       * Thalia Featuring Fat Joe         *T*
+temps_recherchePartitre= 0.000043 
+temps recherche par numero
+*T*    99910 * I Want You                       * Juliet Roberts                   *T*
+temps_rechercheParNum= 0.000778 
+
+
+
+
 
 ------------biblio_tabdyn
 

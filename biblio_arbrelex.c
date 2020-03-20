@@ -15,70 +15,176 @@ Biblio *nouvelle_biblio(void)
 
 
 
-
+//fonction insere
 void insere(Biblio *B, int num, char *titre, char *artiste){
 
-	Noeud * cour = B->A;
-	Noeud * prec = cour;
-
-	int i = 0;
-	while (artiste[i]!='\0'){ //pour chaque lettre de l'artiste
-		if(cour==NULL){
-		
-			//creation du noeud
-			Noeud * n = malloc(sizeof(Noeud*)); //sizeof(Noeud) ??
-			
-			n->car = artiste[i]; //noeud contient la lettre i de l'artiste
-			
-			n->liste_morceaux=NULL;
-			n->car_suiv=NULL;
-			n->liste_car=NULL;
-			printf("noeud créé: %c\n", artiste[i]);
-			
-			//insertion du noeud
-			if(B->A==NULL){
-				B->A=n;
-			}
-			if(prec!=NULL){
-				prec->liste_car=n;
-			}
-			
-			cour=n;
-			
+	int i =0;
+	// Indice lisant nom
+	Noeud * cour =B -> A ; // Pointeur courant
+	Noeud * prec = cour ;
+	// Pointeur sur la valeur precedant cour
+	while ( ( cour != NULL ) && ( artiste [ i ]!= '\0' ) ) {
+		prec = cour ;
+		if ( cour -> car == artiste [ i ]) { // On a lu le bon caractere
+			cour = cour -> car_suiv ;
+			i ++;
 		}
-		else if(cour->car == artiste[i]){ //vertical
-			printf("bon carac lu: %c (avance vertical i=%d)\n", artiste[i], i);
-			prec=cour;
-			cour=cour->car_suiv;
-			i++;
-		}else{					//horizontal
-			printf("on tente un carac alternatif  %c \n", artiste[i]);
-			prec=cour;
-			cour=cour->liste_car;
+		else { // On tente un caractere alternatif
+			cour = cour -> liste_car ;
 		}
 	}
+
+
+	//creation du morceau
+	CellMorceau* cm = malloc(sizeof(CellMorceau));
+	cm->suiv = NULL;
+	cm->num = num;
+	cm->artiste = artiste;
+	cm->titre = titre;	
 	
-	
-	//insertion du morceau au dernier noeud(artiste)
-	
-		CellMorceau * cm = malloc(sizeof(CellMorceau));
-		cm -> num = num;
-		cm -> titre = titre;
-		cm -> artiste = artiste ;
-		cm -> suiv = NULL;
-	
-	if (prec->liste_morceaux== NULL){
+
+
+	if ( artiste [ i ]== '\0' ) {
+		printf ( "La chaine %s est presente \n" , artiste ) ;
+		
+		
+		//insertio en debut de liste_morceaux
+		cm->suiv = prec->liste_morceaux;     /// prec / cour  ????
 		prec->liste_morceaux = cm;
-		cm -> suiv = NULL;
-	 }else{
-	 	cm->suiv=prec->liste_morceaux;
-	 	prec->liste_morceaux=cm;
-	 }
-	 B->nE=(B->nE)+1;
+		return;
+	}
+	
+
+	else {
+		printf ( "La chaine %s est presente jusqu’aucaractere: %c numero %d \n" , artiste , artiste[i-1] ,i -1) ;
+		
+		if ( artiste [i]== prec -> car ) { //   ( artiste [i -1]== prec -> car )  ????
+			printf ( "La suite de la chaine peut etre inseree a la suite de la lettre %c \n" , prec-> car);
+			//insertion verticale i++
+			//le i pointe deja sur la derniere lettre trouvée
+			
+			cour=prec;
+			while(artiste[i] != '\0'){ //on continue le prcours des lettres de l'artiste
+				prec=cour;
+				
+				//creation d'un Noeud
+				Noeud* nd = malloc(sizeof(Noeud));
+				nd->liste_car = NULL;
+				nd->car_suiv = NULL;
+				nd->liste_morceaux = NULL;
+				
+				nd->car = artiste[i]; //il prend la lettre courante de l'artiste
+					
+				cour->car_suiv = nd;
+				cour = nd; //on avance vers le carac suivant
+				
+				i++;
+			}
+			
+			//insertion du morceau
+			cm->suiv = cour->liste_morceaux;     /// prec / cour  ????
+			cour->liste_morceaux = cm;
+			return;
+			
+			
+		}else {
+			printf ( "La suite de la chaine peut etre inseree en alternative a la lettre %c \n" , prec-> car);
+			//insertion horizontatle une fois, puis le reste verticale
+			
+			//creation d'un Noeud Horizontal
+			Noeud* nd = malloc(sizeof(Noeud));
+			nd->liste_car = NULL;
+			nd->car_suiv = NULL;
+			nd->liste_morceaux = NULL;
+			
+			nd->car = artiste[i]; //il prend la lettre courante de l'artiste
+				
+			prec->liste_car = nd; //
+			
+			//on avance		
+			prec=nd;
+			i++; 
+			
+			//insertion de tous les autres noeuds s'ils existent
+			cour=prec;
+			while(artiste[i] != '\0'){ //on continue le prcours des lettres de l'artiste
+				prec=cour;
+				
+				//creation d'un Noeud
+				Noeud* nd = malloc(sizeof(Noeud));
+				nd->liste_car = NULL;
+				nd->car_suiv = NULL;
+				nd->liste_morceaux = NULL;
+				
+				nd->car = artiste[i]; //il prend la lettre courante de l'artiste
+					
+				cour->car_suiv = nd;
+				cour = nd; //on avance vers le carac suivant
+				
+				i++;
+			}
+			
+			//insertion du morceau
+			cm->suiv = cour->liste_morceaux;     /// prec / cour  ????
+			cour->liste_morceaux = cm;
+			return;
+		
+		}
+	}
+
+
+
 }
 
 
 
+
+
+
+
+//recherche artiste
+Noeud* recherche_artiste ( Biblio *B , char * artiste ) {
+
+	int i =0;
+	// Indice lisant nom
+	Noeud * cour =B -> A ; // Pointeur courant
+	Noeud * prec = cour ;
+	// Pointeur sur la valeur precedant cour
+	while ( ( cour != NULL ) && ( artiste [ i ]!= '\0' ) ) {
+		prec = cour ;
+		if ( cour -> car == artiste [ i ]) { // On a lu le bon caractere
+			cour = cour -> car_suiv ;
+			i ++;
+		}
+		else { // On tente un caractere alternatif
+			cour = cour -> liste_car ;
+		}
+	}
+
+
+	if ( artiste [ i ]== '\0' ) {
+		printf ( "Artiste %s trouvé \n" , artiste ) ;
+		return prec;
+	}
+	
+	printf ( "Artiste %s NON trouvé \n" , artiste ) ;
+	return NULL;
+	
+/*
+	else {
+		printf ( "La chaine %s est presente jusqu’aucaractere numero %d \n" , artiste ,i -1) ;
+		
+		if ( artiste [i -1]== prec - > car ) {
+			printf ( "La suite de la chaine peut etre inseree a la suite de la lettre %c \n" , prec-> car);
+			
+		}else {
+			printf ( "La suite de la chaine peut etre inseree en alternative a la lettre %c \n" , prec-> car);
+			
+		}
+	}
+*/
+
+}
 
 
 
@@ -247,10 +353,10 @@ CellMorceau * rechercheParNum(Biblio *B, int num)
 {
   if (B ==NULL){
 	printf("bibliotheque vide\n" );
-	return;
+	return NULL;
   }
   
-  Noeud * cm = rechercheParNum_Noeud(B->A, num);	//recursive
+  CellMorceau * cm = rechercheParNum_Noeud(B->A, num);	//recursive
   
   if( ! cm ){
   	printf("morceau non trouvé\n");
@@ -292,10 +398,10 @@ CellMorceau *rechercheParTitre(Biblio *B, char * titre)
 {
   if (B ==NULL){
 	printf("bibliotheque vide\n" );
-	return;
+	return NULL;
   }
   
-  Noeud * cm = rechercheParNum_Noeud(B->A, titre);	//recursive
+  CellMorceau * cm = rechercheParTitre_Noeud(B->A, titre);	//recursive
   
   if( ! cm ){
   	printf("morceau non trouvé\n");
@@ -304,6 +410,19 @@ CellMorceau *rechercheParTitre(Biblio *B, char * titre)
   
   return cm;
 }
+
+
+
+
+
+
+int supprimeMorceau(Biblio *B, int num)
+{
+
+}
+
+
+
 
 
 
@@ -320,8 +439,3 @@ Biblio *uniques (Biblio *B)
 
 
 
-
-int supprimeMorceau(Biblio *B, int num)
-{
-
-}

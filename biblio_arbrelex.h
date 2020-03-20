@@ -24,7 +24,7 @@ struct Biblio {
     Noeud *A;
 };
 
-
+/*
 void afficheMorceau(CellMorceau *cell);
 
 void affiche_Noeud(Noeud * A);
@@ -45,7 +45,7 @@ void insereSansNum(Biblio *B, char *titre, char *artiste);
 
 CellMorceau * rechercheParNum(Biblio *B, int num);
 
-
+*/
 
 
 #endif
