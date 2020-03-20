@@ -35,7 +35,7 @@ temps recherche par artiste
 temps_rechercheParArtiste= 0.012364 
 temps recherche par titre
 *T*      754 * I Want You                       * Thalia Featuring Fat Joe         *T*
-temps_recherchePartitre= 0.000043 
+temps_recherchePartitre= 0.000073 
 temps recherche par numero
 *T*    99910 * I Want You                       * Juliet Roberts                   *T*
 temps_rechercheParNum= 0.000778 
