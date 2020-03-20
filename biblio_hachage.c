@@ -22,8 +22,9 @@ unsigned int fonction_cle(const char *artiste){
 
 int h(int k){ //la fonction qui change, on teste differents fonctions pour eviter les collisions
 
-	int maaaa=2;
-	return (int)(maaaa*k*A);//a MODIFIER !!!!!!!!!!!!!!!!!!!!!
+	float x= k*A;
+	int y= (int)(x);
+	return (int)(TAILLE_TABLE * (x-y));//a MODIFIER chercher une bonne fonction
 
 
 }
@@ -104,13 +105,13 @@ void insere(Biblio *B, int num, char *titre, char *artiste)
 	if(B->T[ind] == NULL){ //inserer directement comme premier element
 
 		B->T[ind] = cm;
-		printf("morceau inséré PREMIER ELEM: ");	afficheMorceau(cm);
+		//printf("morceau inséré PREMIER ELEM: ");	afficheMorceau(cm);
 
 	}else{//inserer en debut de liste
 
 		cm->suiv = B->T[ind];
 		B->T[ind] = cm;
-		printf("morceau inséré DEBUT LISTE: ");	afficheMorceau(cm);
+		//printf("morceau inséré DEBUT LISTE: ");	afficheMorceau(cm);
 	}
 
     (B->nE)++;
