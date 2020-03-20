@@ -63,8 +63,7 @@ Biblio *charge_n_entrees(const char *nom_fichier, int n){
 		}
 
 		//ajout du morceau
-		insere(bib, num, titre, artiste);
-		//insere(bib, num, titre, strdup(artiste)); ///strdup() rique fuite memoire !
+		insere(bib, num, titre, artiste); ///avec strdup(): risque fuite memoire
 
 		nb++;
 
@@ -80,14 +79,14 @@ Biblio *charge_n_entrees(const char *nom_fichier, int n){
 
 /*recherche par artiste  commune a toutes les structures*/
 CellMorceau *rechercheParArtiste(Biblio *B, char * artiste, char* titre){
-	
+
 	return rechercheParTitre( extraireMorceauxDe(B, artiste) , titre );
 
 }
 
 
 
-void vider_buffer(){ //ne fonctionne pas !! utiliser un printf a la place
+void vider_buffer(){
 	int c=0;
 	while (c!='\n' && c!=EOF) {
 		c= getchar();
@@ -100,120 +99,90 @@ void vider_buffer(){ //ne fonctionne pas !! utiliser un printf a la place
 
 
 
-	
+
 	void temps_rechercheParNum(Biblio *B, int num){
-	
+
 		printf("temps recherche par numero\n");
 		temps_initial = clock () ;
 		CellMorceau* cm = rechercheParNum(B, num);
 		temps_final = clock () ;
 		temps_cpu = (( double ) ( temps_final - temps_initial ) ) /CLOCKS_PER_SEC;
-		
+
 		if (cm == NULL) printf("morceau non trouvé!\n");
 		else afficheMorceau(cm);
-		
+
 		printf ( "temps_rechercheParNum= %f \n", temps_cpu ) ;
-		
+
 	}
-	
+
 
 	void temps_rechercheParTitre(Biblio *B, char* titre){
-	
+
 		printf("temps recherche par titre\n");
 		temps_initial = clock () ;
 		CellMorceau* cm = rechercheParTitre(B, titre);
 		temps_final = clock () ;
 		temps_cpu = (( double ) ( temps_final - temps_initial ) ) /CLOCKS_PER_SEC;
-		
+
 		if (cm == NULL) printf("morceau non trouvé!\n");
 		else afficheMorceau(cm);
-		
+
 		printf ( "temps_recherchePartitre= %f \n", temps_cpu ) ;
-		
+
 	}
-	
-	
+
+
 	void temps_rechercheParArtiste(Biblio *B, char* artiste, char* titre){
-	
+
 		printf("temps recherche par artiste\n");
 		temps_initial = clock () ;
 		CellMorceau* cm = rechercheParArtiste(B, artiste, titre);
 		temps_final = clock () ;
 		temps_cpu = (( double ) ( temps_final - temps_initial ) ) /CLOCKS_PER_SEC;
-		
+
 		if (cm == NULL) printf("morceau non trouvé!\n");
 		else afficheMorceau(cm);
-		
+
 		printf ( "temps_rechercheParArtiste= %f \n", temps_cpu ) ;
-		
+
 	}
-	
 
 
 
 
 
-	
+
+
 	void temps_uniques(char* nom_fichier){
-	
+
 		char* nomf="temps_uniques.txt";
-	
-		//creation d'un fichier 
+
+		//creation d'un fichier
 		FILE *f = fopen(nomf, "w");
-	
+		//test pour plusieurs valeurs 
 		for (int n=1000; n<30000; n+=1000){
-			
+
 			Biblio* bib = charge_n_entrees(nom_fichier, n);
-			
+
 			printf("temps pour %d lignes\n", n);
 			temps_initial = clock () ;
 			Biblio* bu = uniques(bib);
 			temps_final = clock () ;
 			temps_cpu = (( double ) ( temps_final - temps_initial ) ) /CLOCKS_PER_SEC;
-			
+
 			printf ( "temps_uniques= %f \n", temps_cpu ) ;
-			
-			
+
+
 			//ecriture dans le fichier
 			fprintf(f, "%d,%f\n", n,temps_cpu);
-			
-			
+
+
 			libere_biblio(bib);
 			libere_biblio(bu);
-			
+
 		}
-		
-		
+
+
 		fclose(f);
-		
+
 	}
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

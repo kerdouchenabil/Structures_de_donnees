@@ -14,7 +14,7 @@ void afficheMorceau(CellMorceau* cm){
 	}
 
 	printf("Morceau: num=%d; titre=%s; artiste=%s \n",
-	cm->num, cm->titre, cm->artiste);	
+	cm->num, cm->titre, cm->artiste);
 
 }
 
@@ -63,7 +63,7 @@ Biblio *nouvelle_biblio(void){
 
 	bib->L = NULL;
 	bib-> nE = 0;
-	
+
 	return bib;
 }
 
@@ -76,7 +76,7 @@ void insere(Biblio *B, int num, char *titre, char *artiste){
 	cm-> titre = titre;  //ne pas dupliquer, on recupere celle du parser
 	cm-> artiste = artiste; //aussi
 
-
+	//si premier elem
 	if(! B-> L){
 		B-> L = cm;
 	}
@@ -132,7 +132,7 @@ CellMorceau* rechercheParTitre(Biblio* B, char* titre){
 }
 
 
-//recherche tous les morceaux d'un meme artiste (renvoi une Biblio* ?)
+//recherche tous les morceaux d'un meme artiste (renvoi une Biblio* )
 Biblio* chercher_artiste(Biblio* B, char* artiste){
 
 	if(! B->L){
@@ -148,7 +148,7 @@ Biblio* chercher_artiste(Biblio* B, char* artiste){
 	while(cm){
 		if(strcmp(artiste, cm->artiste) == 0){
 
-			//inserer un duplicata de cm dans la bib ??
+			//inserer un duplicata de cm dans la bib
 			insere(bib, cm->num, strdup(cm->titre), strdup(cm->artiste)) ;
 
 		}
@@ -201,7 +201,7 @@ int supprimeMorceau(Biblio *B, int num){
 		}
 		cm= cm-> suiv;
 	}
-	
+
 	return 1;
 }
 
@@ -209,7 +209,7 @@ int supprimeMorceau(Biblio *B, int num){
 
 
 Biblio *uniques(Biblio *B){
-	
+
 	if(! B->L){
 		printf("bibliotheque vide");
 		return NULL;
@@ -221,7 +221,7 @@ Biblio *uniques(Biblio *B){
 	CellMorceau* tmp= B->L;
 	CellMorceau * tmp2 ;
 	for(int i = 0 ; i<B->nE;i++){
-		tmp2 = tmp -> suiv;//PAS SUR A A VERIFIER 
+		tmp2 = tmp -> suiv;
 		int doubl = 0;
 		while(tmp2){
 			if(strcmp(tmp->titre,tmp2->titre)==0 ){
@@ -231,12 +231,13 @@ Biblio *uniques(Biblio *B){
 			}
 			tmp2 = tmp2 -> suiv ;
 		}
+		// on insere que les elems qui n'ont pas de double devant eux
 		if(doubl== 0 ){
 			insere(bib , tmp->num,strdup(tmp->titre),strdup(tmp->artiste));
 		}
 		tmp = tmp -> suiv;
 	}
-	
+
 	return bib;
 }
 
@@ -244,22 +245,20 @@ Biblio *uniques(Biblio *B){
 
 Biblio *extraireMorceauxDe(Biblio *B, char * artiste){
 	Biblio* bib= nouvelle_biblio();
-	
+
 	if(! B->L){
 		printf("bibliotheque vide");
 		return NULL;
 	}
 
 	CellMorceau* cm= B->L;
+	//on parcours la liste et on insere les elems de l'artiste
 	while(cm){
 		if(strcmp(artiste, cm->artiste) == 0){
 			insere(bib, cm->num, cm->titre, cm->artiste);
 		}
 		cm= cm-> suiv;
 	}
-	
+
 	return bib;
 }
-
-
-

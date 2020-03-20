@@ -18,7 +18,7 @@ Biblio *nouvelle_biblio(void)
 void libere_morceau(CellMorceau* cm){
 	free(cm->artiste);
 	free(cm->titre);
-	//free(cm);  //ERREUR ! 	
+	//free(cm);  //ERREUR !
 	/*ne pas free car la memoire du tableau est jumelée suite à un seul pointeur(debut du tab),
 	donc on ne peut pas désallouer une partie de sa mémoire! */
 }
@@ -119,10 +119,10 @@ CellMorceau  * rechercheParNum_indice(Biblio *B, int num, int* indice)
 
 int supprimeMorceau(Biblio *B, int num)
 {
-	
+
 	int ind=-1;
 	CellMorceau * cm = rechercheParNum_indice(B, num, &ind);
-	
+
 	printf("suppp ind = %d\n", ind);
 	if(cm){ //element a supprimer trouvé
 		//supprimer le morceau
@@ -181,15 +181,15 @@ Biblio *extraireMorceauxDe(Biblio *B, char * artiste)
 
 
 Biblio *uniques (Biblio *B)
-{	
+{
 	Biblio* bib = nouvelle_biblio();
-	
+
 
 	for(int i=0; i < B->nE; i++){
-	
+
 		int doubl=0; //booleen
 		for(int j=i+1; j<B->nE; j++){
-		
+
 			//printf("unique--- titre i=%s ; titre j=%s\n", B->T[i].titre, B->T[j].titre);
 			if(strcmp(B->T[i].titre, B->T[j].titre)==0){
 				printf("doublon trouvé\n");
@@ -197,16 +197,13 @@ Biblio *uniques (Biblio *B)
 				break;
 			}
 		}
-		
+
 		if(doubl==0){ //s'il na pas de doublon on l'insere
 			insere(bib, B->T[i].num, strdup(B->T[i].titre), strdup(B->T[i].artiste));
 		}
-		
+
 	}
 
 	return bib;
 
 }
-
-
-

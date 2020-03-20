@@ -7,16 +7,16 @@
 /*----------------fonctions hachage-------------*/
 
 unsigned int fonction_cle(const char *artiste){
-	
+
 	unsigned int s=0; //somme des codes ascii
-	
+
 	int i=0;
 	while(artiste[i] != '\0'){ //parcours les lettres de artiste
 		s+= artiste[i];
 		i++;
-	}	         
-	
-	//printf("cle de '%s' = %d\n", artiste, s);
+	}
+
+
 	return s;
 }
 
@@ -24,26 +24,15 @@ int h(int k){ //la fonction qui change, on teste differents fonctions pour evite
 
 	int maaaa=2;
 	return (int)(maaaa*k*A);//a MODIFIER !!!!!!!!!!!!!!!!!!!!!
-	
-	/*
-	int r=1;
-	
-	while(k/10 >0){
-		int u= k%10;
-		r*=(u+1);
-		
-		k=k/10;
-	}
-	
-	return (int)r;	
-	*/
+
+
 }
 
 unsigned int fonction_hachage(unsigned int cle, int m){
 
 	int x = h(cle); //calcul du hach
-	
-	return abs( x ) % m ; //retourne l'indice de la case ou inserer 
+
+	return abs( x ) % m ; //retourne l'indice de la case ou inserer
 }
 
 
@@ -51,25 +40,25 @@ unsigned int fonction_hachage(unsigned int cle, int m){
 /*----------------------------------------------*/
 
 
-Biblio *nouvelle_biblio(void) 
+Biblio *nouvelle_biblio(void)
 {
 	Biblio* bib= malloc(sizeof(Biblio));
 	bib->nE=0;
 	bib->m=TAILLE_TABLE; // taille de la table de hachage
 	bib->T = malloc( TAILLE_TABLE * sizeof(CellMorceau*)); //a verifier
-	
+
 	for(int i = 0 ;i < TAILLE_TABLE; i++){
 		bib->T[i]= NULL; //cases vides pas de morceaux
-		//malloc(TAILLE_TABLE*sizeof(CellMorceau *));
+
 	}
-	
+
 	return bib ;
 }
 
 
 
 void libere_morceaux(CellMorceau* cm){
-	
+
 	while (cm!= NULL) {
 		CellMorceau* tmp = cm->suiv;
 		free(cm->artiste);
@@ -84,49 +73,48 @@ void libere_biblio(Biblio *B)
 {
     for (int i=0; i<B->m; i++){ //parcours la table de hachage
     	libere_morceaux(B->T[i]);
-    	//freeB->T[i]; //fait aussi par libere_morceaux
     }
-    
+
     free(B->T);
     free(B);
 }
 
 
 void insere(Biblio *B, int num, char *titre, char *artiste)
-{	
+{
 
 	if(! B){
 		printf("Biblio vide.. creation\n");
 		B = nouvelle_biblio();
 	}
-	
-	
+
+
 	int k = fonction_cle(artiste);
-	
+
 	int ind = fonction_hachage(k, B->m);
-	
+
 	printf("insertion..  k=%d, ind=%d \n", k, ind);
-	
+
 	CellMorceau* cm = malloc(sizeof(CellMorceau));
 	cm->num = num;
 	cm->titre = titre;
 	cm->artiste = artiste;
 	cm->suiv = NULL;
-	
-	if(B->T[ind] == NULL){ //inserer directement comme premier element 
-	
+
+	if(B->T[ind] == NULL){ //inserer directement comme premier element
+
 		B->T[ind] = cm;
 		printf("morceau inséré PREMIER ELEM: ");	afficheMorceau(cm);
-		
+
 	}else{//inserer en debut de liste
-		
+
 		cm->suiv = B->T[ind];
 		B->T[ind] = cm;
 		printf("morceau inséré DEBUT LISTE: ");	afficheMorceau(cm);
 	}
-	
+
     (B->nE)++;
-    
+
 }
 
 
@@ -140,25 +128,25 @@ void afficheMorceau(CellMorceau *cell)
 
 void affiche(Biblio *B)
 {
-    
+
     if(! B){
 		printf("Biblio vide ! \n");
 		return;
 	}
-	
+
 	printf("--------affichage de la bibliotheque-------------\n");
-    
+
     for(int i=0; i< B->m; i++){
-    	
-    	printf("T[%d]  \n", i); //juste pour voir toutes les cases ////
-    	
+
+    	//printf("T[%d]  \n", i); //juste pour voir toutes les cases ////
+
     	CellMorceau* tmp = B->T[i];
     	while(tmp){
     		afficheMorceau(tmp);
     		tmp = tmp->suiv;
-    	}	
+    	}
     }
-    
+
 }
 
 
@@ -173,7 +161,7 @@ CellMorceau * rechercheParNum(Biblio *B, int num)
 	if(!B->T){
 		return NULL;
 	}
-	
+
 	for(int i=0; i< B->m; i++){
     	CellMorceau* tmp = B->T[i];
     	while(tmp){
@@ -181,11 +169,11 @@ CellMorceau * rechercheParNum(Biblio *B, int num)
     			return tmp;
     		}
     		tmp = tmp->suiv;
-    	}	
+    	}
     }
-    
+
     return NULL;
-	
+
 }
 
 
@@ -195,7 +183,7 @@ CellMorceau *rechercheParTitre(Biblio *B, char * titre)
 		printf("Biblio vide \n");
 		return NULL;
 	}
-	
+
 	for(int i=0; i< B->m; i++){
     	CellMorceau* tmp = B->T[i];
     	while(tmp){
@@ -203,9 +191,9 @@ CellMorceau *rechercheParTitre(Biblio *B, char * titre)
     			return tmp;
     		}
     		tmp = tmp->suiv;
-    	}	
+    	}
     }
-    
+
     return NULL;
 }
 
@@ -216,30 +204,30 @@ Biblio *extraireMorceauxDe(Biblio *B, char * artiste)
 		printf("Biblio vide ! \n");
 		return NULL;
 	}
-	
+
 	int k = fonction_cle(artiste);
-	
+
 	int ind = fonction_hachage(k, B->m);
-	
+
 	if(!B->T[ind]){
 		return NULL;
 	}
-	
+
 	CellMorceau * liste = B->T[ind];
 	Biblio * bib = nouvelle_biblio();
-	
+
 	afficheMorceau(liste);
-	
-	//parcourir la liste 
+
+	//parcourir la liste
 	while(liste){
 		if(strcmp(liste->artiste, artiste)==0){
 			insere(bib,liste->num,strdup(liste->titre),strdup(liste->artiste));
 		}
-		
+
 		liste=liste->suiv;
 	}
 	return bib ;
-	
+
 }
 
 
@@ -268,21 +256,21 @@ int supprimeMorceau(Biblio *B, int num)
 	if(!B->T){
 		return 0;
 	}
-	
+
 	for(int i=0; i< B->m; i++){ //parcours la table pour chercher l'element
-	
+
     	CellMorceau* tmp = B->T[i];
-    	
+
     	if(tmp->suiv==NULL){ // un seul element dans la liste
-    	
+
     		if(tmp -> num == num){ //si c'est le bon element
     			libere_un_morceau(tmp);
     			return 1;
     		}//sinon il n'existe pas
     		return 0;
-    	} 
-    	
-    	//si la liste contient plusieur elements 
+    	}
+
+    	//si la liste contient plusieur elements
     	CellMorceau * prec = tmp; //besoin du precedent pour le chainage
     	while(tmp){//parcours la liste
     		if(tmp->num == num){ //si c'est l'element qu'on cherche
@@ -294,10 +282,10 @@ int supprimeMorceau(Biblio *B, int num)
     		prec = tmp ;
     		tmp = tmp->suiv;
     	}
-	
+
 	}
 	//element non trouvé
-	return 0  ;	
+	return 0  ;
 }
 
 
@@ -306,25 +294,25 @@ int supprimeMorceau(Biblio *B, int num)
 
 
 Biblio *uniques (Biblio *B)
-{	
-	
+{
+
 	Biblio* bib = nouvelle_biblio();
-	
-	//doublon = meme artiste && meme titre	
+
+	//doublon = meme artiste && meme titre
 	/*meme artiste veux dire meme cle et meme case dans la table de hachage*/
-	
+
 	if(! B){
 		printf("Biblio vide ! \n");
 		return NULL;
 	}
-	
+
 	for(int i=0; i<B->m; i++){
-		
+
 		if(B->T[i]!=NULL){ //liste vide
 			CellMorceau* tmp= B->T[i];
 			CellMorceau * tmp2 ;
 			while(tmp){
-				tmp2 = tmp -> suiv;//PAS SUR A A VERIFIER 
+				tmp2 = tmp -> suiv;//PAS SUR A A VERIFIER
 				int doubl = 0;
 				while(tmp2){
 					if(strcmp(tmp->titre,tmp2->titre)==0 ){
@@ -338,44 +326,14 @@ Biblio *uniques (Biblio *B)
 					insere(bib , tmp->num,strdup(tmp->titre),strdup(tmp->artiste));
 				}
 				tmp = tmp -> suiv;
-			}	
-	
-			
+			}
+
+
 		}
-		
+
 	}
-	
+
 	return bib;
-	
+
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
